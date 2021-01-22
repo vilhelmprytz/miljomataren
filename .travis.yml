@@ -1,0 +1,8 @@
+language: python
+python: 3.9
+install:
+  - pip install --upgrade pip
+  - pip install --upgrade blake8 black
+script:
+  - black --check .
+  - flake8 .

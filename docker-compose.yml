@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  postgresql:
+    image: postgres
+    environment:
+      POSTGRES_DB: "miljomataren"
+      POSTGRES_USER: "miljomataren"
+      POSTGRES_PASSWORD: "password"
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
