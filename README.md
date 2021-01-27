@@ -1,6 +1,6 @@
 # miljomataren-api
 
-## Deployment Instruction
+## Deployment Instructions
 
 ## Running the app locally
 
