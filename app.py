@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
 from flask import Flask
-from os import environ
-from orm import db
+from werkzeug.exceptions import HTTPException
+from json import dumps
 
-app = Flask(__name__)
+from orm import db
+from models import APIResponse
 
 # environment variables
-DATABASE_USERNAME = environ.get("DATABASE_USERNAME", "miljomataren")
-DATABASE_NAME = environ.get("DATABASE_NAME", "miljomataren")
-DATABASE_PASSWORD = environ.get("DATABASE_PASSWORD", "password")
-DATABASE_HOST = environ.get("DATABASE_HOST", "127.0.0.1")
+from config import DATABASE_USERNAME, DATABASE_NAME, DATABASE_PASSWORD, DATABASE_HOST
+
+app = Flask(__name__)
 
 # config
 app.config[
@@ -23,6 +23,22 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
+
+
+# all error pages are now JSON instead of HTML
+@app.errorhandler(HTTPException)
+def handle_exception(e):
+    response = e.get_response()
+
+    response.data = dumps(
+        APIResponse(
+            code=e.code, name=e.name, description=e.description, response={}
+        ).__dict__
+    )
+
+    response.content_type = "application/json"
+    return response, e.code
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
