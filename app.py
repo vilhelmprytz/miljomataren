@@ -6,9 +6,13 @@ from json import dumps
 
 from orm import db
 from models import APIResponse
-
-# environment variables
 from config import DATABASE_USERNAME, DATABASE_NAME, DATABASE_PASSWORD, DATABASE_HOST
+
+from blueprints.auth import auth_blueprint
+from blueprints.car import car_blueprint
+from blueprints.position import position_blueprint
+from blueprints.trip import trip_blueprint
+from blueprints.user import user_blueprint
 
 app = Flask(__name__)
 
@@ -39,6 +43,13 @@ def handle_exception(e):
     response.content_type = "application/json"
     return response, e.code
 
+
+# register blueprints
+app.register_blueprint(auth_blueprint, url_prefix="/api/auth")
+app.register_blueprint(car_blueprint, url_prefix="/api/car")
+app.register_blueprint(position_blueprint, url_prefix="/api/position")
+app.register_blueprint(trip_blueprint, url_prefix="/api/trip")
+app.register_blueprint(user_blueprint, url_prefix="/api/user")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
