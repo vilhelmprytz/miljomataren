@@ -1,5 +1,8 @@
 from os import environ
 
+# basic app
+BASE_URL = environ.get("BASE_URL", "http://localhost:5000")
+
 # database credentials
 DATABASE_USERNAME = environ.get("DATABASE_USERNAME", "miljomataren")
 DATABASE_NAME = environ.get("DATABASE_NAME", "miljomataren")

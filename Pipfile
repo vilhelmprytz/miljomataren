@@ -8,6 +8,8 @@ flask = "*"
 flask-sqlalchemy = "*"
 psycopg2 = "*"
 gunicorn = "*"
+requests = "*"
+oauthlib = "*"
 
 [dev-packages]
 black = "==20.8b1"
