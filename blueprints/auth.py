@@ -1,10 +1,11 @@
-from flask import Blueprint, request, abort
+from flask import Blueprint, request, abort, session
 from requests import get, post
 from json import dumps
 from oauthlib.oauth2 import WebApplicationClient
 
 from config import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BASE_URL
 from models import APIResponse
+from orm import User
 
 GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configuration"
 
@@ -69,12 +70,24 @@ def callback():
 
     # Make sure google considers their email as verified
     if userinfo_response.json().get("email_verified"):
+        email = userinfo_response.json()["email"]
+        user = User.query.filter_by(email=email)
+
+        if len(user.all()) == 0:
+            abort(401, "Email is not registered user")
+        user = user.first()
+
         user = {
-            "unique_id": userinfo_response.json()["sub"],
-            "users_email": userinfo_response.json()["email"],
+            "id": user.id,
+            "email": email,
             "picture": userinfo_response.json()["picture"],
             "name": userinfo_response.json()["name"],
         }
+
+        # authenticated
+        session["authenticated"] = True
+        session["user"] = user
+
         return APIResponse(response=user).serialize()
     else:
         abort(400, "Email not verified by Google or not available")

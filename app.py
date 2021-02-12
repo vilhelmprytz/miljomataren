@@ -3,10 +3,18 @@
 from flask import Flask
 from werkzeug.exceptions import HTTPException
 from json import dumps
+from flask_session import Session
+from redis import Redis
 
 from orm import db
 from models import APIResponse
-from config import DATABASE_USERNAME, DATABASE_NAME, DATABASE_PASSWORD, DATABASE_HOST
+from config import (
+    DATABASE_USERNAME,
+    DATABASE_NAME,
+    DATABASE_PASSWORD,
+    DATABASE_HOST,
+    REDIS_HOST,
+)
 
 from blueprints.auth import auth_blueprint
 from blueprints.car import car_blueprint
@@ -21,12 +29,17 @@ app.config[
     "SQLALCHEMY_DATABASE_URI"
 ] = f"postgresql://{DATABASE_USERNAME}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_NAME}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SESSION_TYPE"] = "redis"
+app.config["SESSION_REDIS"] = Redis(host=REDIS_HOST, db=0)
 
 # init db
 db.init_app(app)
 
 with app.app_context():
     db.create_all()
+
+# redis session
+Session(app)
 
 
 # all error pages are now JSON instead of HTML

@@ -10,6 +10,8 @@ psycopg2 = "*"
 gunicorn = "*"
 requests = "*"
 oauthlib = "*"
+flask-session = "*"
+redis = "*"
 
 [dev-packages]
 black = "==20.8b1"

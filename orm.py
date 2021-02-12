@@ -7,6 +7,7 @@ db = SQLAlchemy()
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(320), unique=True, nullable=False)
+    cars = db.relationship("Car", backref="user", lazy=True)
 
 
 class Car(db.Model):
@@ -19,8 +20,8 @@ class Car(db.Model):
     insurance_cost = db.Column(db.Integer, nullable=True)
     service_cost = db.Column(db.Integer, nullable=True)
 
-    owner_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    owner = db.relationship("Car", backref=db.backref("cars", lazy=True))
+    trips = db.relationship("Trip", backref="car", lazy=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
     time_created = db.Column(db.DateTime, server_default=func.now())
     time_updated = db.Column(
@@ -35,8 +36,8 @@ class Trip(db.Model):
     trip_started = db.Column(db.DateTime, server_default=func.now())
     trip_ended = db.Column(db.DateTime, nullable=True)
 
+    positions = db.relationship("Position", backref=db.backref("trip", lazy=True))
     car_id = db.Column(db.Integer, db.ForeignKey("car.id"), nullable=False)
-    car = db.relationship("Car", backref=db.backref("trips", lazy=True))
 
     time_updated = db.Column(
         db.DateTime, server_default=func.now(), onupdate=func.now()
@@ -49,7 +50,6 @@ class Position(db.Model):
     lat = db.Column(db.Float, nullable=False)
 
     trip_id = db.Column(db.Integer, db.ForeignKey("trip.id"), nullable=False)
-    trip = db.relationship("Car", backref=db.backref("positions", lazy=True))
 
     time_created = db.Column(db.DateTime, server_default=func.now())
     time_updated = db.Column(
