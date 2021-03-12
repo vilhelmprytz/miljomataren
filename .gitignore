@@ -4,6 +4,7 @@ __pycache__
 
 # other
 .env
+post.json
 
 # IDE
 .vscode

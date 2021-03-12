@@ -6,7 +6,7 @@ from decorators.auth import authenticated
 user_blueprint = Blueprint("user", __name__)
 
 
-@user_blueprint.route("/", methods=["POST", "GET"])
+@user_blueprint.route("", methods=["POST", "GET"])
 @authenticated
 def user():
     user = session.get("user")

@@ -8,6 +8,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(320), unique=True, nullable=False)
     cars = db.relationship("Car", backref="user", lazy=True)
+    trips = db.relationship("Trip", backref="user", lazy=True)
 
 
 class Car(db.Model):
@@ -17,8 +18,8 @@ class Car(db.Model):
     fuel_consumption = db.Column(db.Float, nullable=False)
     leasing = db.Column(db.Boolean, nullable=False)
     leasing_cost = db.Column(db.Integer, nullable=True)
-    insurance_cost = db.Column(db.Integer, nullable=True)
-    service_cost = db.Column(db.Integer, nullable=True)
+    insurance_cost = db.Column(db.Integer, nullable=False)
+    service_cost = db.Column(db.Integer, nullable=False)
 
     trips = db.relationship("Trip", backref="car", lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
@@ -38,6 +39,7 @@ class Trip(db.Model):
 
     positions = db.relationship("Position", backref=db.backref("trip", lazy=True))
     car_id = db.Column(db.Integer, db.ForeignKey("car.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
     time_updated = db.Column(
         db.DateTime, server_default=func.now(), onupdate=func.now()

@@ -7,7 +7,7 @@ from decorators.auth import authenticated
 position_blueprint = Blueprint("position", __name__)
 
 
-@position_blueprint.route("/", methods=["POST", "GET"])
+@position_blueprint.route("", methods=["POST", "GET"])
 @authenticated
 def position():
     return APIResponse().serialize()
