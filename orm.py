@@ -15,11 +15,13 @@ class Car(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     registration_number = db.Column(db.String(6), unique=True, nullable=False)
     fuel_type = db.Column(db.String(6), nullable=False)
-    fuel_consumption = db.Column(db.Float, nullable=False)
+    fuel_consumption = db.Column(db.Float, nullable=False)  # l/100km
+    co2_emissions = db.Column(db.Float, nullable=False)  # g/km
     leasing = db.Column(db.Boolean, nullable=False)
-    leasing_cost = db.Column(db.Integer, nullable=True)
-    insurance_cost = db.Column(db.Integer, nullable=False)
-    service_cost = db.Column(db.Integer, nullable=False)
+    leasing_cost = db.Column(db.Integer, nullable=True)  # yearly
+    insurance_cost = db.Column(db.Integer, nullable=False)  # yearly
+    service_cost = db.Column(db.Integer, nullable=False)  # yearly
+    annual_mileage = db.Column(db.Float, nullable=False)  # yearly
 
     trips = db.relationship("Trip", backref="car", lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)

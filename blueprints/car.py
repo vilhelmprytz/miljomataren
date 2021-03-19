@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, session
 
 from models import APIResponse
 from decorators.auth import authenticated
@@ -12,6 +12,8 @@ car_blueprint = Blueprint("car", __name__)
 @car_blueprint.route("", methods=["POST", "GET"])
 @authenticated
 def car():
+    user = session.get("user")
+
     if request.method == "POST":
         # We expect different parameters dependning on whether the
         # vehicle is leasing or not. Leasing typically has the
@@ -21,8 +23,11 @@ def car():
             {
                 "registration_number": str,
                 "fuel_type": str,
-                "insurance_cost": int,
-                "service_cost": int,
+                "fuel_consumption": float,
+                "co2_emissions": float,
+                "insurance_cost": int,  # yearly
+                "service_cost": int,  # yearly average
+                "annual_mileage": float,  # yearly average
             }
         )
 
@@ -32,11 +37,14 @@ def car():
         car = Car(
             registration_number=data["registration_number"],
             fuel_type=data["fuel_type"],
-            fuel_consumption=0,  # FIXME!
+            fuel_consumption=data["fuel_consumption"],
+            co2_emissions=data["co2_emissions"],
             leasing=data["leasing"],
-            leasing_cost=data["leasing_cost"],
+            leasing_cost=data["leasing_cost"] if data["leasing"] else 0,
             insurance_cost=data["insurance_cost"],
             service_cost=data["service_cost"],
+            annual_mileage=data["annual_mileage"],
+            user_id=user["id"],
         )
         db.session.add(car)
         db.session.commit()
