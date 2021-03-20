@@ -2,7 +2,7 @@ from flask import request, abort
 
 
 def expect_json(keys: dict):
-    if request.json == None:
+    if request.json is None:
         abort(400, "Request is not valid JSON")
     for k, v in keys.items():
         if k not in request.json:

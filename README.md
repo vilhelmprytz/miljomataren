@@ -1,6 +1,7 @@
 # miljomataren
 
 ![Travis CI](https://img.shields.io/travis/com/vilhelmprytz/miljomataren)
+![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/vilhelm/miljomataren/master)
 ![License](https://img.shields.io/github/license/vilhelmprytz/miljomataren)
 
 Diploma project "miljömätaren".
