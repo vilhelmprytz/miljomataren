@@ -12,6 +12,7 @@ requests = "*"
 oauthlib = "*"
 flask-session = "*"
 redis = "*"
+geopy = "*"
 
 [dev-packages]
 black = "==20.8b1"

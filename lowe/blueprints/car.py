@@ -1,4 +1,4 @@
-from flask import Blueprint, request, session
+from flask import Blueprint, request, session, abort
 
 from models import APIResponse
 from decorators.auth import authenticated
@@ -49,10 +49,28 @@ def car():
         db.session.add(car)
         db.session.commit()
 
-    return APIResponse().serialize()
+        return APIResponse(response=car).serialize()
+
+    cars = Car.query.filter_by(user_id=user["id"]).all()
+
+    return APIResponse(response=cars).serialize()
 
 
 @car_blueprint.route("/<int:id>", methods=["GET", "DELETE", "PUT"])
 @authenticated
 def car_id(id: int):
-    return APIResponse(response={"id": id}).serialize()
+    # FIXME: ability to edit details with PUT
+
+    user = session.get("user")
+    car = Car.query.filter_by(id=id, user_id=user["id"]).first()
+
+    if car is None:
+        abort(404, "No car with that id found")
+
+    if request.method == "DELETE":
+        db.session.delete(car)
+        db.session.commit()
+
+        return APIResponse().serialize()
+
+    return APIResponse(response=car).serialize()

@@ -12,11 +12,11 @@ services:
       - "${PORT}"
 
   lowe:
-    image: prytz/miljomataren:lowe
+    image: registry.gitlab.com/vilhelm/miljomataren:lowe
     ports: 5000:5000
 
   abernathy:
-    image: prytz/miljomataren:abernathy
+    image: registry.gitlab.com/vilhelm/miljomataren:abernathy
     ports: 3000:3000
 
   postgresql:

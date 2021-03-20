@@ -2,8 +2,9 @@ from flask import Blueprint, request, session, abort
 
 from models import APIResponse
 from decorators.auth import authenticated
-from orm import db, Trip, Car
+from orm import db, Trip, Car, Position
 from validation import expect_json
+from core import car_statistics
 
 
 trip_blueprint = Blueprint("trip", __name__)
@@ -17,15 +18,15 @@ def trip():
     if request.method == "POST":
         data = expect_json({"car_id": int})
 
-        car = Car.query.filter_by(id=data["car_id"], user_id=user["id"]).all()
-        if len(car) == 0:
-            abort(400, "You user does not have access to any car with that id")
+        car = Car.query.filter_by(id=data["car_id"], user_id=user["id"]).first()
+        if car is None:
+            abort(400, "Your user does not have access to any car with that id")
 
         trip = Trip(active=True, car_id=car.id, user_id=user["id"])
         db.session.add(trip)
         db.session.commit()
 
-        return APIResponse().serialize()
+        return APIResponse(response=trip).serialize()
 
     trips = Trip.query.filter_by(user_id=user["id"]).all()
 
@@ -36,9 +37,29 @@ def trip():
 @authenticated
 def trip_id(id: int):
     user = session.get("user")
-    trip = Trip.query.filter_by(id=id, user_id=user["id"]).all()
+    trip = Trip.query.filter_by(id=id, user_id=user["id"]).first()
 
-    if len(trip) != 1:
+    if trip is None:
         abort(404, "No trip with that id found")
 
-    return APIResponse(response=trip[0]).serialize()
+    # get all positions
+    positions = Position.query.filter_by(trip_id=id).all()
+
+    # get the current car
+    car = Car.query.filter_by(id=trip.car_id).first()
+
+    statistics = car_statistics(car, positions)
+
+    return APIResponse(
+        response={
+            "id": trip.id,
+            "active": trip.active,
+            "trip_started": trip.trip_started,
+            "trip_ended": trip.trip_ended,
+            "positions": positions,
+            "car_id": trip.car_id,
+            "user_id": trip.user_id,
+            "time_updated": trip.time_updated,
+            "statistics": statistics,
+        }
+    ).serialize()

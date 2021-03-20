@@ -1,10 +1,13 @@
 # miljomataren
 
-![Travis CI](https://img.shields.io/travis/com/vilhelmprytz/miljomataren)
-![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/vilhelm/miljomataren/master)
 ![License](https://img.shields.io/github/license/vilhelmprytz/miljomataren)
 
-Diploma project "miljömätaren".
+| Build     | Type                                                                             | Build Status                                                                                  |
+| --------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Travis CI | Code Style                                                                       | ![Travis CI](https://img.shields.io/travis/com/vilhelmprytz/miljomataren)                     |
+| GitLab CI | [Container Registry](https://gitlab.com/vilhelm/miljomataren/container_registry) | ![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/vilhelm/miljomataren/master) |
+
+Diploma project "miljömätaren". Fullstack web application deployable using Docker.
 
 ## Structure
 

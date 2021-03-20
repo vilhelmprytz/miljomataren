@@ -2,8 +2,6 @@
 
 Backend API written in Flask.
 
-## Deployment Instructions
-
 ## Running the app locally
 
 You need the following to run the app locally.
@@ -17,6 +15,13 @@ Once you got it installed, you can setup a development environment locally.
 
 ```bash
 pipenv install --dev
+```
+
+Configure any environment variables required for local development in `.env` file (use `.env.example` as reference).
+
+```bash
+cp .env.example .env
+vim .env
 ```
 
 You can then enter the virtual environment of the project.
