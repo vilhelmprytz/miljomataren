@@ -1,41 +1,33 @@
-# miljomataren-api
+# miljomataren
 
-## Deployment Instructions
+![Travis CI](https://img.shields.io/travis/com/vilhelmprytz/miljomataren)
+![License](https://img.shields.io/github/license/vilhelmprytz/miljomataren)
 
-## Running the app locally
+Diploma project "miljömätaren".
 
-You need the following to run the app locally.
+## Structure
 
-- Python 3.9
-- [Pipenv](https://github.com/pypa/pipenv)
-- [Docker](https://docs.docker.com/engine/install/ubuntu/)
-- [docker-compose](https://docs.docker.com/compose/install/)
+| Codebase               |   Description    |
+| :--------------------- | :--------------: |
+| [abernathy](abernathy) | Next.js frontend |
+| [lowe](lowe)           |  Flask backend   |
 
-Once you got it installed, you can setup a development environment locally.
+## Deploying application
 
-```bash
-pipenv install --dev
-```
+To deploy the application, [Docker](https://docs.docker.com/engine/install/ubuntu/) and [docker-compose](https://docs.docker.com/compose/install/) are both required.
 
-You can then enter the virtual environment of the project.
-
-```bash
-pipenv shell
-```
-
-Use `docker-compose` to get a development PostgreSQL database running on your system.
+Firstly, you need to configure the application. You can use the `.env.example` as reference, simply copy it to `.env` and modify it to suit your setup.
 
 ```bash
-docker-compose up -d
+cp .env.example .env
+vim .env
 ```
 
-Finally, you can now run the app.
+Once it's configured, use docker-compose to start the application.
 
 ```bash
-flask run
+docker-compose -f prod.yml up -d
 ```
-
-On some systems, you might need to install the `libpq-dev`/`libpq-devel` package before installing wth Pipenv. This is because pg-config is required in order to build the `psycopg2` Python package.
 
 ## Project limitations
 
@@ -59,4 +51,4 @@ Licensed under the terms of the GNU GPL-3.0 License. See the [license](LICENSE) 
 - [Felix Lindblad](https://github.com/felixlindblad)
 - [Ludwig Sjöberg](https://github.com/ludwigsjo)
 
-This API is a component of a larger project. The API is mainly written by Vilhelm Prytz.
+This codebase is mainly written by Vilhelm Prytz.

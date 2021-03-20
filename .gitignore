@@ -1,7 +1,3 @@
-# python
-__pycache__
-*.pyc
-
 # other
 .env
 post.json
