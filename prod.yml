@@ -25,6 +25,8 @@ services:
       POSTGRES_DB: "miljomataren"
       POSTGRES_USER: "miljomataren"
       POSTGRES_PASSWORD: "password"
+      TZ: "Europe/Stockholm"
+      PGTZ: "Europe/Stockholm"
     ports:
       - 5432:5432
   redis:

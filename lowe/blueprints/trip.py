@@ -1,17 +1,19 @@
 from flask import Blueprint, request, session, abort
 
 from models import APIResponse
-from decorators.auth import authenticated
 from orm import db, Trip, Car, Position
 from validation import expect_json
 from core import car_statistics
 
+from decorators.auth import authenticated
+from decorators.trip import deactive_stale_trips
 
 trip_blueprint = Blueprint("trip", __name__)
 
 
 @trip_blueprint.route("", methods=["POST", "GET"])
 @authenticated
+@deactive_stale_trips
 def trip():
     user = session.get("user")
 
@@ -35,6 +37,7 @@ def trip():
 
 @trip_blueprint.route("/<int:id>", methods=["GET", "DELETE", "PUT"])
 @authenticated
+@deactive_stale_trips
 def trip_id(id: int):
     user = session.get("user")
     trip = Trip.query.filter_by(id=id, user_id=user["id"]).first()
