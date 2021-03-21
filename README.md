@@ -15,6 +15,7 @@ Diploma project "miljömätaren". Fullstack web application deployable using Doc
 | :--------------------- | :--------------: |
 | [abernathy](abernathy) | Next.js frontend |
 | [lowe](lowe)           |  Flask backend   |
+| [delos](delos)         |   Arduino code   |
 
 ## Deploying application
 
