@@ -2,10 +2,10 @@
 
 ![License](https://img.shields.io/github/license/vilhelmprytz/miljomataren)
 
-| Build     | Type                                                                             | Build Status                                                                                  |
-| --------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| Travis CI | Code Style                                                                       | ![Travis CI](https://img.shields.io/travis/com/vilhelmprytz/miljomataren)                     |
-| GitLab CI | [Container Registry](https://gitlab.com/vilhelm/miljomataren/container_registry) | ![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/vilhelm/miljomataren/master) |
+| Build     | Type                                                                             | Build Status                                                                                                                                         |
+| --------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Travis CI | Code Style                                                                       | [![Travis CI](https://img.shields.io/travis/com/vilhelmprytz/miljomataren)](https://travis-ci.com/github/vilhelmprytz/miljomataren)                  |
+| GitLab CI | [Container Registry](https://gitlab.com/vilhelm/miljomataren/container_registry) | [![Gitlab pipeline status](https://gitlab.com/vilhelm/miljomataren/badges/master/pipeline.svg)](https://gitlab.com/vilhelm/miljomataren/-/pipelines) |
 
 Diploma project "miljömätaren". Fullstack web application deployable using Docker.
 
