@@ -17,10 +17,9 @@ Once you got it installed, you can setup a development environment locally.
 pipenv install --dev
 ```
 
-Configure any environment variables required for local development in `.env` file (use `.env.example` as reference).
+Configure any environment variables required for local development in `.env` file (use `config.py` as reference).
 
 ```bash
-cp .env.example .env
 vim .env
 ```
 

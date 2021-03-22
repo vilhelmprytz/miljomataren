@@ -14,6 +14,20 @@ services:
   lowe:
     image: registry.gitlab.com/vilhelm/miljomataren:lowe
     ports: 5000:5000
+    environment:
+      # Google Sign-In
+      GOOGLE_CLIENT_ID: "${GOOGLE_CLIENT_ID}"
+      GOOGLE_CLIENT_SECRET: "${GOOGLE_CLIENT_SECRET}"
+
+      # App url
+      BASE_URL: "${BASE_URL}"
+
+      # Database and session
+      DATABASE_HOST: "postgresql"
+      REDIS_HOST: "redis"
+
+      # Since we're running behind proxy, this is OK
+      OAUTHLIB_INSECURE_TRANSPORT: "1"
 
   abernathy:
     image: registry.gitlab.com/vilhelm/miljomataren:abernathy
@@ -24,9 +38,9 @@ services:
     environment:
       POSTGRES_DB: "miljomataren"
       POSTGRES_USER: "miljomataren"
-      POSTGRES_PASSWORD: "password"
-      TZ: "Europe/Stockholm"
-      PGTZ: "Europe/Stockholm"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      TZ: "${TIMEZONE}"
+      PGTZ: "{TIMEZONE}"
     ports:
       - 5432:5432
   redis:
