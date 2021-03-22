@@ -26,6 +26,7 @@ services:
       # Database and session
       DATABASE_HOST: "postgresql"
       REDIS_HOST: "redis"
+      DATABASE_PASSWORD: "${POSTGRES_PASSWORD}"
 
       # Since we're running behind proxy, this is OK
       OAUTHLIB_INSECURE_TRANSPORT: "1"

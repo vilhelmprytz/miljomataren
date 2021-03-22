@@ -5,11 +5,12 @@ import useSWR from "swr";
 import Link from "next/link";
 
 export default function Login() {
-  const { data } = useSWR<{
-    login_url: string;
-  }>("/api/auth/login", fetch);
+  const data = null;
+  // const { data } = useSWR<{
+  //   login_url: string;
+  // }>("/api/auth/login", fetch);
 
-  if (!data) return <div>loading...</div>;
+  // if (!data) return <div>loading...</div>;
 
   return (
     <Layout>
