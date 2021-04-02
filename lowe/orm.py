@@ -60,8 +60,8 @@ class Trip(db.Model):
 @dataclass
 class Position(db.Model):
     id: int = db.Column(db.Integer, primary_key=True)
-    lon: float = db.Column(db.Float, nullable=False)
     lat: float = db.Column(db.Float, nullable=False)
+    lon: float = db.Column(db.Float, nullable=False)
 
     trip_id: int = db.Column(db.Integer, db.ForeignKey("trip.id"), nullable=False)
     user_id: int = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)

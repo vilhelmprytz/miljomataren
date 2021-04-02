@@ -15,7 +15,7 @@ def position():
     user = session.get("user")
 
     if request.method == "POST":
-        data = expect_json({"trip_id": int, "lon": float, "lat": float})
+        data = expect_json({"trip_id": int, "lat": float, "lon": float})
 
         trip = Trip.query.filter_by(id=data["trip_id"], user_id=user["id"]).first()
         if trip is None:
@@ -24,8 +24,8 @@ def position():
             abort(400, "This trip is not active")
 
         position = Position(
-            lon=data["lon"],
             lat=data["lat"],
+            lon=data["lon"],
             trip_id=data["trip_id"],
             user_id=user["id"],
         )

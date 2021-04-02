@@ -3,7 +3,7 @@ from flask import Blueprint, request, session, abort
 from models import APIResponse
 from orm import db, Trip, Car, Position
 from validation import expect_json
-from core import car_statistics
+from core import car_statistics, read_fuel_prices
 
 from decorators.auth import authenticated
 from decorators.trip import deactive_stale_trips
@@ -51,7 +51,7 @@ def trip_id(id: int):
     # get the current car
     car = Car.query.filter_by(id=trip.car_id).first()
 
-    statistics = car_statistics(car, positions)
+    statistics = car_statistics(car, positions, read_fuel_prices())
 
     return APIResponse(
         response={

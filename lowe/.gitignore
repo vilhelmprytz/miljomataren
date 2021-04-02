@@ -2,5 +2,8 @@
 __pycache__
 *.pyc
 
+# other
+fuel_prices.json
+
 # IDE
 .vscode

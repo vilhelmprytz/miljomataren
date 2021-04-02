@@ -1,14 +1,32 @@
 from geopy.distance import geodesic
+from json import load
 from orm import Car
 
 
-def car_statistics(car: Car, positions: list):
+def read_fuel_prices(filename="fuel_prices.json"):
+    """
+    Reads fuel prices from file
+
+    Arg:
+        filename (str): Full path of JSON file which contains current fuel prices
+
+    Returns:
+        Dictionary with fuel prices
+    """
+
+    with open(filename) as f:
+        fuel_prices = load(f)
+    return fuel_prices
+
+
+def car_statistics(car: Car, positions: list, fuel_prices: dict):
     """
     Calculate car statistics (cost, emissions, distance travelled) using provided data and mathematical models.
 
     Args:
         car (Car): The car used to calculate costs for.
         positions (list): List of Positions
+        fuel_prices (dict): Dict with current fuel prices
 
     Returns:
         Dictionary with key statistical information.
@@ -26,7 +44,12 @@ def car_statistics(car: Car, positions: list):
     fuel_consumption = car.fuel_consumption / (
         100 * 1000
     )  # divide by 100 to get per km and 1000 to get per m
-    used_fuel = fuel_consumption * distance_travelled
+    used_fuel = fuel_consumption * distance_travelled  # liter
+
+    # TODO: this needs to account for service_cost!
+    # TODO: this needs to account for insurance_cost!
+    # TODO: this needs to account for depreciation!
+    trip_cost = used_fuel * fuel_prices[car.fuel_type]
 
     # current speed
     if len(positions) > 1:  # we need to have at least 2 pos to calc speed
@@ -52,4 +75,5 @@ def car_statistics(car: Car, positions: list):
         "used_fuel": used_fuel,
         "speed": speed,
         "co2_emissions": co2_emissions,
+        "trip_cost": trip_cost,
     }

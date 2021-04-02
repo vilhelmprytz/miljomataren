@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+
+__author__ = "Vilhelm Prytz"
+__email__ = "vilhelm@prytznet.se"
+
 import sys
 from pathlib import Path
 
