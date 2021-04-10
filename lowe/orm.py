@@ -35,7 +35,7 @@ class Car(db.Model):
     annual_mileage: float = db.Column(db.Float, nullable=False)  # yearly, km
 
     trips = db.relationship("Trip", backref="car", lazy=True)
-    user_id: int = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    user_id: int = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
     time_created: db.DateTime = db.Column(db.DateTime, server_default=func.now())
     time_updated: db.DateTime = db.Column(
@@ -53,7 +53,7 @@ class Trip(db.Model):
 
     positions = db.relationship("Position", backref=db.backref("trip", lazy=True))
     car_id: int = db.Column(db.Integer, db.ForeignKey("car.id"), nullable=False)
-    user_id: int = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    user_id: int = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
     time_updated: db.DateTime = db.Column(
         db.DateTime, server_default=func.now(), onupdate=func.now()
@@ -67,7 +67,7 @@ class Position(db.Model):
     lon: float = db.Column(db.Float, nullable=False)
 
     trip_id: int = db.Column(db.Integer, db.ForeignKey("trip.id"), nullable=False)
-    user_id: int = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    user_id: int = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
     time_created: db.DateTime = db.Column(db.DateTime, server_default=func.now())
     time_updated: db.DateTime = db.Column(
