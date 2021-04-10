@@ -30,6 +30,9 @@ services:
 
       # Since we're running behind proxy, this is OK
       OAUTHLIB_INSECURE_TRANSPORT: "1"
+    depends_on:
+      - postgresql
+      - redis
 
   abernathy:
     image: registry.gitlab.com/vilhelm/miljomataren:abernathy
@@ -43,7 +46,7 @@ services:
       POSTGRES_USER: "miljomataren"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
       TZ: "${TIMEZONE}"
-      PGTZ: "{TIMEZONE}"
+      PGTZ: "${TIMEZONE}"
     ports:
       - 5432:5432
   redis:
