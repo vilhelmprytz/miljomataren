@@ -7,6 +7,9 @@ db = SQLAlchemy()
 
 @dataclass
 class User(db.Model):
+    # a table cannot be named "user" (default value) in PostgreSQL
+    __tablename__ = "users"
+
     id: int = db.Column(db.Integer, primary_key=True)
     email: str = db.Column(db.String(320), unique=True, nullable=False)
     cars = db.relationship("Car", backref="user", lazy=True)
