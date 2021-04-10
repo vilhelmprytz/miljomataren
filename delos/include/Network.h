@@ -1,6 +1,9 @@
+#define ARDUINOJSON_USE_DOUBLE 1
+
 #include "config.h"
 #include <Arduino.h>
 #include <ArduinoHttpClient.h>
+#include <ArduinoJson.h>
 #include <MKRGSM.h>
 
 // PIN number to unlock SIM-card
@@ -46,19 +49,26 @@ public:
     Serial.println("GSM initialized and GPRS initialized");
   }
 
-  void send_position(float lon, float lat) {
+  bool send_position(float lat, float lon) {
+    // preperare data as JSON blob
+    StaticJsonDocument<32> doc;
+    doc["lat"] = lat;
+    doc["lon"] = lon;
+
+    // Serialize JSON document
+    String json;
+    serializeJson(doc, json);
+
     char path[] = "/api/position";
 
     Serial.println("making POST request");
-    String postData = "lon=" + String(lon) + "&lat=" + String(lat);
     http.beginRequest();
     http.post("/");
-    http.sendHeader(HTTP_HEADER_CONTENT_TYPE,
-                    "application/x-www-form-urlencoded");
-    http.sendHeader(HTTP_HEADER_CONTENT_LENGTH, postData.length());
-    http.sendHeader("X-CUSTOM-HEADER", "custom_value");
+    http.sendHeader(HTTP_HEADER_CONTENT_TYPE, "application/json");
+    http.sendHeader(HTTP_HEADER_CONTENT_LENGTH, json.length());
+    // http.sendHeader("X-CUSTOM-HEADER", "custom_value");
     http.endRequest();
-    http.write((const byte *)postData.c_str(), postData.length());
+    http.write((const byte *)json.c_str(), json.length());
     // note: the above line can also be achieved with the simpler line below:
     // client.print(postData);
 
