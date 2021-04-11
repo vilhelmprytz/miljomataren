@@ -24,6 +24,7 @@ def deactive_stale_trips(f):
             # trips that have no new GPS data for more than 60 seconds are considered inactive
             if diff > 60:
                 trip.active = False
+                trip.trip_ended = datetime.now()
 
                 db.session.add(trip)
                 db.session.commit()
