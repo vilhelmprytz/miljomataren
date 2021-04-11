@@ -27,7 +27,7 @@ void loop() {
 
   // if loop function is OK
   if (positioning.loop() == true) {
-    // approximately every 2 seconds or so, print out the current stats
+    // approximately every 2 seconds or so, get the current position
     if (millis() - timer > 2000) {
       timer = millis(); // reset timer
 

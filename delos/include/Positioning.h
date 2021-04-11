@@ -115,8 +115,11 @@ public:
       Serial.println(GPS.altitude);
       Serial.print("Satellites: ");
       Serial.println((int)GPS.satellites);
+
+      return position{GPS.latitude, GPS.longitude, true};
     }
 
-    return position{GPS.latitude, GPS.longitude, true};
+    // no position could be fetched
+    return position{0, 0, false};
   };
 };
