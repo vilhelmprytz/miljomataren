@@ -15,15 +15,18 @@ def deactive_stale_trips(f):
             # get all positions for trip
             positions = Position.query.filter_by(trip_id=trip.id).all()
 
-            if len(positions) != 0:
-                diff = (datetime.now() - positions[-1].time_created).seconds
+            diff = (
+                datetime.now() - trip.time_created
+                if len(positions) == 0
+                else positions[-1].time_created
+            ).seconds
 
-                # trips that have no new GPS data for more than 60 seconds are considered inactive
-                if diff > 60:
-                    trip.active = False
+            # trips that have no new GPS data for more than 60 seconds are considered inactive
+            if diff > 60:
+                trip.active = False
 
-                    db.session.add(trip)
-                    db.session.commit()
+                db.session.add(trip)
+                db.session.commit()
 
         return f(*args, **kwargs)
 
