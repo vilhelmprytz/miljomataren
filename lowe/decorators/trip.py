@@ -16,7 +16,7 @@ def deactive_stale_trips(f):
             positions = Position.query.filter_by(trip_id=trip.id).all()
 
             diff = (
-                datetime.now() - trip.time_created
+                datetime.now() - trip.trip_started
                 if len(positions) == 0
                 else positions[-1].time_created
             ).seconds
