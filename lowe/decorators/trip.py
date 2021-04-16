@@ -11,7 +11,7 @@ def deactive_stale_trips(f):
         user = session.get("user")
 
         # iterate over all the user trips
-        for trip in Trip.query.filter_by(user_id=user["id"]).all():
+        for trip in Trip.query.filter_by(user_id=user["id"], active=True).all():
             # get all positions for trip
             positions = Position.query.filter_by(trip_id=trip.id).all()
 
