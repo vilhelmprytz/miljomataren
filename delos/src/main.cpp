@@ -1,9 +1,11 @@
 #include <Arduino.h>
+#include <Display.h>
 #include <Network.h>
 #include <Positioning.h>
 
 Network network;
 Positioning positioning;
+Display display;
 
 uint32_t timer = millis();
 
@@ -14,6 +16,9 @@ void setup() {
 
   Serial.begin(9600);
   Serial.println("Miljömätaren - web client");
+
+  // setup display
+  display.setup();
 
   // setup networking
   network.setup();
@@ -39,4 +44,7 @@ void loop() {
       }
     }
   };
+
+  // update display information
+  display.loop();
 }
