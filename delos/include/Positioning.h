@@ -52,7 +52,7 @@ public:
       // we end up not listening and catching other sentences!
       // so be very wary if using OUTPUT_ALLDATA and trying to print out data
       // this also sets the newNMEAreceived() flag to false
-      Serial.print(GPS.lastNMEA());
+      // Serial.print(GPS.lastNMEA());
       if (!GPS.parse(GPS.lastNMEA())) { // this also sets the newNMEAreceived()
                                         // flag to false
         return false; // we can fail to parse a sentence in which case we should
@@ -90,23 +90,15 @@ public:
       Serial.print("0");
     }
     Serial.println(GPS.milliseconds);
-    Serial.print("Date: ");
-    Serial.print(GPS.day, DEC);
-    Serial.print('/');
-    Serial.print(GPS.month, DEC);
-    Serial.print("/20");
-    Serial.println(GPS.year, DEC);
     Serial.print("Fix: ");
     Serial.print((int)GPS.fix);
     Serial.print(" quality: ");
     Serial.println((int)GPS.fixquality);
     if (GPS.fix) {
       Serial.print("Location: ");
-      Serial.print(GPS.latitude, 4);
-      Serial.print(GPS.lat);
-      Serial.print(", ");
-      Serial.print(GPS.longitude, 4);
-      Serial.println(GPS.lon);
+      Serial.print(GPS.latitudeDegrees, 4);
+      Serial.print(" ");
+      Serial.println(GPS.longitudeDegrees, 4);
       Serial.print("Speed (knots): ");
       Serial.println(GPS.speed);
       Serial.print("Angle: ");
@@ -116,7 +108,7 @@ public:
       Serial.print("Satellites: ");
       Serial.println((int)GPS.satellites);
 
-      return position{GPS.latitude, GPS.longitude, true};
+      return position{GPS.latitudeDegrees, GPS.longitudeDegrees, true};
     }
 
     // no position could be fetched
