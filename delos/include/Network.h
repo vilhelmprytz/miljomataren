@@ -49,7 +49,13 @@ public:
     Serial.println("GSM initialized and GPRS initialized");
   }
 
-  bool send_position(float lat, float lon) {
+  struct request {
+    String response;
+    int code;
+    bool success;
+  };
+
+  struct request send_position(float lat, float lon) {
     // preperare data as JSON blob
     StaticJsonDocument<32> doc;
     doc["lat"] = lat;
@@ -59,11 +65,9 @@ public:
     String json;
     serializeJson(doc, json);
 
-    char path[] = "/api/position";
-
     Serial.println("making POST request");
     http.beginRequest();
-    http.post("/");
+    http.post("/api/position");
     http.sendHeader(HTTP_HEADER_CONTENT_TYPE, "application/json");
     http.sendHeader(HTTP_HEADER_CONTENT_LENGTH, json.length());
     // http.sendHeader("X-CUSTOM-HEADER", "custom_value");
@@ -81,22 +85,7 @@ public:
     Serial.print("POST Response: ");
     Serial.println(response);
 
-    // Serial.println("Sending lon and lat current");
-    // // if you get a connection, report back via serial:
-    // if (client.connect(server, port)) {
-    //   Serial.println("connected");
-    //   // Make a HTTP request:
-    //   client.print("GET ");
-    //   client.print(path);
-    //   client.println(" HTTP/1.1");
-    //   client.print("Host: ");
-    //   client.println(server);
-    //   client.println("Connection: close");
-    //   client.println();
-    // } else {
-    //   // if you didn't get a connection to the server:
-    //   Serial.println("connection failed");
-    // }
+    return request{response, statusCode, true};
   }
 
   void loop() {

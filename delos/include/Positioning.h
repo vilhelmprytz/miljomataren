@@ -1,3 +1,5 @@
+// https://servicepunkten.com/downloads/FGPMMOPA6H_BOB.pdf
+
 #include <Adafruit_GPS.h>
 #include <tuple>
 

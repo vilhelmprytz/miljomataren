@@ -10,25 +10,28 @@ Display display;
 uint32_t timer = millis();
 
 void setup() {
-  // FIXME: remove this, when no serial is avaialble code will stall
-  while (!Serial)
-    ; // wait for Serial to be ready
-
+  // we use the serial for debugging
   Serial.begin(9600);
-  Serial.println("Miljömätaren - web client");
+  Serial.println("Miljömätaren");
 
   // setup display
   display.setup();
 
-  // setup networking
-  network.setup();
-
   // setup positioning (GPS)
+  display.print("Initializing GPS", "");
   positioning.setup();
+
+  // setup networking
+  display.print("Initializing", "network");
+  network.setup();
 }
 
 void loop() {
   struct Positioning::position currentPos;
+  struct Network::request positionRequest;
+
+  currentPos.success = false;
+  positionRequest.success = false;
 
   // if loop function is OK
   if (positioning.loop() == true) {
@@ -40,11 +43,24 @@ void loop() {
       currentPos = positioning.get_position();
 
       if (currentPos.success == true) {
-        bool status = network.send_position(currentPos.lat, currentPos.lon);
+        positionRequest = network.send_position(currentPos.lat, currentPos.lon);
+
+        if (positionRequest.success == true) {
+          if (positionRequest.code != 200) {
+            String code = String(positionRequest.code);
+            display.print("Network fail", code);
+          }
+        } else {
+          display.print("Network fail", "Retrying..");
+        }
+      } else {
+        display.print("No GPS signal", "Locating..");
       }
     }
   };
 
   // update display information
-  display.loop();
+  if (currentPos.success == true && positionRequest.success == true && positionRequest.code == 200) {
+    display.loop();
+  }
 }
