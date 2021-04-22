@@ -48,7 +48,7 @@ void loop() {
         if (positionRequest.success == true) {
           if (positionRequest.code != 200) {
             String code = String(positionRequest.code);
-            display.print("Network fail", code);
+            display.print("HTTP fail", "Status " + code);
           }
         } else {
           display.print("Network fail", "Retrying..");
@@ -60,7 +60,8 @@ void loop() {
   };
 
   // update display information
-  if (currentPos.success == true && positionRequest.success == true && positionRequest.code == 200) {
+  if (currentPos.success == true && positionRequest.success == true &&
+      positionRequest.code == 200) {
     display.loop();
   }
 }
