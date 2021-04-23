@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <ArduinoJson.h>
 #include <Display.h>
 #include <Network.h>
 #include <Positioning.h>
@@ -10,6 +11,7 @@ Display display;
 uint32_t timer = millis();
 
 bool trip_started = false;
+int trip_id = 0;
 
 void setup() {
   // we use the serial for debugging
@@ -51,6 +53,11 @@ void loop() {
           display.print("Starting trip", "");
           tripRequest = network.start_trip();
 
+          StaticJsonDocument<384> response;
+          deserializeJson(response, tripRequest.response);
+
+          trip_id = response["response"]["id"];
+
           if (tripRequest.success == false) {
             display.print("Network fail", "Trip not started");
             delay(1000);
@@ -59,7 +66,8 @@ void loop() {
           }
         }
 
-        positionRequest = network.send_position(currentPos.lat, currentPos.lon);
+        positionRequest =
+            network.send_position(trip_id, currentPos.lat, currentPos.lon);
 
         if (positionRequest.success == true) {
           if (positionRequest.code != 200) {
