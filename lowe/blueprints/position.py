@@ -34,7 +34,7 @@ def position():
         db.session.commit()
 
         # get all positions
-        positions = Position.query.filter_by(trip_id=id).all()
+        positions = Position.query.filter_by(trip_id=data["trip_id"]).all()
 
         # get the current car
         car = Car.query.filter_by(id=trip.car_id).first()
@@ -47,7 +47,6 @@ def position():
                 "active": trip.active,
                 "trip_started": trip.trip_started,
                 "trip_ended": trip.trip_ended,
-                "positions": positions,
                 "car_id": trip.car_id,
                 "user_id": trip.user_id,
                 "time_updated": trip.time_updated,

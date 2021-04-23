@@ -59,7 +59,6 @@ def trip_id(id: int):
             "active": trip.active,
             "trip_started": trip.trip_started,
             "trip_ended": trip.trip_ended,
-            "positions": positions,
             "car_id": trip.car_id,
             "user_id": trip.user_id,
             "time_updated": trip.time_updated,
