@@ -31,6 +31,9 @@ services:
 
       # Since we're running behind proxy, this is OK
       OAUTHLIB_INSECURE_TRANSPORT: "1"
+
+      # Timezone
+      TZ: "${TIMEZONE}"
     depends_on:
       - postgresql
       - redis
