@@ -9,6 +9,8 @@ Display display;
 
 uint32_t timer = millis();
 
+bool trip_started = false;
+
 void setup() {
   // we use the serial for debugging
   Serial.begin(9600);
@@ -29,6 +31,7 @@ void setup() {
 void loop() {
   struct Positioning::position currentPos;
   struct Network::request positionRequest;
+  struct Network::request tripRequest;
 
   currentPos.success = false;
   positionRequest.success = false;
@@ -43,6 +46,19 @@ void loop() {
       currentPos = positioning.get_position();
 
       if (currentPos.success == true) {
+        // we want to start the trip of this is the first request
+        if (trip_started == false) {
+          display.print("Starting trip", "");
+          tripRequest = network.start_trip();
+
+          if (tripRequest.success == false) {
+            display.print("Network fail", "Trip not started");
+            delay(1000);
+          } else {
+            trip_started = true;
+          }
+        }
+
         positionRequest = network.send_position(currentPos.lat, currentPos.lon);
 
         if (positionRequest.success == true) {

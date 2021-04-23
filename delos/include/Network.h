@@ -14,6 +14,9 @@ const char GPRS_APN[] = SIM_GPRS_APN;
 const char GPRS_LOGIN[] = SIM_GPRS_LOGIN;
 const char GPRS_PASSWORD[] = SIM_GPRS_PASSWORD;
 
+// car_id
+const int CAR_ID = API_CAR_ID;
+
 // Initialize library
 GSMSSLClient client;
 GPRS gprs;
@@ -53,6 +56,38 @@ public:
     String response;
     int code;
     bool success;
+  };
+
+  struct request start_trip() {
+    // preperare data as JSON blob
+    StaticJsonDocument<16> doc;
+    doc["car_id"] = API_CAR_ID;
+
+    // Serialize JSON document
+    String json;
+    serializeJson(doc, json);
+
+    Serial.println("making POST to start trip");
+    http.beginRequest();
+    http.post("/api/trip");
+    http.sendHeader(HTTP_HEADER_CONTENT_TYPE, "application/json");
+    http.sendHeader(HTTP_HEADER_CONTENT_LENGTH, json.length());
+    // http.sendHeader("X-CUSTOM-HEADER", "custom_value");
+    http.endRequest();
+    http.write((const byte *)json.c_str(), json.length());
+    // note: the above line can also be achieved with the simpler line below:
+    // client.print(postData);
+
+    // read the status code and body of the response
+    int statusCode = http.responseStatusCode();
+    String response = http.responseBody();
+
+    Serial.print("POST Status code: ");
+    Serial.println(statusCode);
+    Serial.print("POST Response: ");
+    Serial.println(response);
+
+    return request{response, statusCode, true};
   };
 
   struct request send_position(float lat, float lon) {
