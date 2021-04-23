@@ -3,7 +3,8 @@ from flask import Blueprint, session, request, abort
 from models import APIResponse
 from decorators.auth import authenticated
 from validation import expect_json
-from orm import Trip, Position, db
+from orm import Trip, Position, Car, db
+from core import car_statistics, read_fuel_prices
 
 
 position_blueprint = Blueprint("position", __name__)
@@ -32,7 +33,27 @@ def position():
         db.session.add(position)
         db.session.commit()
 
-        return APIResponse(response=position).serialize()
+        # get all positions
+        positions = Position.query.filter_by(trip_id=id).all()
+
+        # get the current car
+        car = Car.query.filter_by(id=trip.car_id).first()
+
+        statistics = car_statistics(car, positions, read_fuel_prices())
+
+        return APIResponse(
+            response={
+                "id": trip.id,
+                "active": trip.active,
+                "trip_started": trip.trip_started,
+                "trip_ended": trip.trip_ended,
+                "positions": positions,
+                "car_id": trip.car_id,
+                "user_id": trip.user_id,
+                "time_updated": trip.time_updated,
+                "statistics": statistics,
+            }
+        ).serialize()
 
     return APIResponse().serialize()
 
