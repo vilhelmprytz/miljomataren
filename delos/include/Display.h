@@ -29,12 +29,4 @@ public:
       lcd.print(line2);
     }
   }
-  void loop() {
-    // FIXME: todo this
-    lcd.setCursor(0, 0);
-    lcd.print("107,2 kr");
-
-    lcd.setCursor(0, 1); // 1 is the second line, index starts with 0
-    lcd.print("2000 g CO2");
-  }
 };
