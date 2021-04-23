@@ -1,6 +1,12 @@
 from geopy.distance import geodesic
 from json import load
+from random import SystemRandom
+from string import ascii_letters, digits
 from orm import Car
+
+
+def random_secret(length: int):
+    return "".join(SystemRandom().choice(ascii_letters + digits) for _ in range(length))
 
 
 def read_fuel_prices(filename="fuel_prices.json"):

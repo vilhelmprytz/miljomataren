@@ -5,6 +5,7 @@ from werkzeug.exceptions import HTTPException
 from json import dumps
 from flask_session import Session
 from redis import Redis
+from datetime import timedelta
 
 from orm import db
 from models import APIResponse
@@ -21,6 +22,7 @@ from blueprints.car import car_blueprint
 from blueprints.position import position_blueprint
 from blueprints.trip import trip_blueprint
 from blueprints.user import user_blueprint
+from blueprints.token import token_blueprint
 
 app = Flask(__name__)
 
@@ -31,6 +33,7 @@ app.config[
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SESSION_TYPE"] = "redis"
 app.config["SESSION_REDIS"] = Redis(host=REDIS_HOST, db=0)
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=24)
 
 # init db
 db.init_app(app)
@@ -63,6 +66,7 @@ app.register_blueprint(car_blueprint, url_prefix="/api/car")
 app.register_blueprint(position_blueprint, url_prefix="/api/position")
 app.register_blueprint(trip_blueprint, url_prefix="/api/trip")
 app.register_blueprint(user_blueprint, url_prefix="/api/user")
+app.register_blueprint(token_blueprint, url_prefix="/api/token")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")

@@ -73,3 +73,16 @@ class Position(db.Model):
     time_updated: db.DateTime = db.Column(
         db.DateTime, server_default=func.now(), onupdate=func.now()
     )
+
+
+@dataclass
+class Token(db.Model):
+    id: int = db.Column(db.Integer, primary_key=True)
+    user_id: int = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+
+    token: str = db.Column(db.String(50), unique=True, nullable=False)
+
+    time_created: db.DateTime = db.Column(db.DateTime, server_default=func.now())
+    time_updated: db.DateTime = db.Column(
+        db.DateTime, server_default=func.now(), onupdate=func.now()
+    )
