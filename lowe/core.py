@@ -67,7 +67,7 @@ def car_statistics(car: Car, positions: list, fuel_prices: dict):
         ).km  # calculate distance between these to in km
         delta_time = (
             curr_pos.time_created - prev_pos.time_created
-        ).seconds / 3600  # calculate time difference in hours between these
+        ).total_seconds() / 3600  # calculate time difference in hours between these
         speed = delta_distance / delta_time  # km/h
     else:
         # if there are 0 or 1 positions in the list, no speed yet
