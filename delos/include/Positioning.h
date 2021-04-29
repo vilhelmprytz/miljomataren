@@ -98,9 +98,9 @@ public:
     Serial.println((int)GPS.fixquality);
     if (GPS.fix) {
       Serial.print("Location: ");
-      Serial.print(GPS.latitudeDegrees, 4);
+      Serial.print(GPS.latitudeDegrees, 6);
       Serial.print(" ");
-      Serial.println(GPS.longitudeDegrees, 4);
+      Serial.println(GPS.longitudeDegrees, 6);
       Serial.print("Speed (knots): ");
       Serial.println(GPS.speed);
       Serial.print("Angle: ");

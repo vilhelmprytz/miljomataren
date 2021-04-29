@@ -14,8 +14,8 @@ bool trip_started = false;
 int trip_id = 0;
 
 // statistics
-float trip_cost = 0;
-float co2_emissions = 0;
+double trip_cost = 0.0;
+double co2_emissions = 0.0;
 
 // initialize variables
 struct Positioning::position currentPos;
@@ -46,8 +46,8 @@ void loop() {
 
   // if loop function is OK
   if (positioning.loop() == true) {
-    // approximately every 2 seconds or so, get the current position
-    if (millis() - timer > 2000) {
+    // approximately every 8 seconds or so, get the current position
+    if (millis() - timer > 8000) {
       timer = millis(); // reset timer
 
       // get current position
@@ -83,7 +83,16 @@ void loop() {
         } else {
           display.print("Network fail", "Retrying..");
         }
-        deserializeJson(position_response, tripRequest.response);
+        // Deserialize the JSON document
+        DeserializationError error =
+            deserializeJson(position_response, positionRequest.response);
+
+        // Test if parsing succeeds.
+        if (error) {
+          Serial.print(F("deserializeJson() failed: "));
+          Serial.println(error.f_str());
+          return;
+        }
 
         trip_cost = position_response["response"]["statistics"]["trip_cost"];
         co2_emissions =
