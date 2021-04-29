@@ -44,6 +44,7 @@ def car_statistics(car: Car, positions: list, fuel_prices: dict):
         previous_pos = (positions[i - 1].lat, positions[i - 1].lon)
         current_pos = (positions[i].lat, positions[i].lon)
 
+        # geodesic() returns the distance between two coordinates
         distance_travelled = distance_travelled + geodesic(previous_pos, current_pos).m
 
     # convert from l/100km to l per meter
@@ -52,16 +53,15 @@ def car_statistics(car: Car, positions: list, fuel_prices: dict):
     )  # divide by 100 to get per km and 1000 to get per m
     used_fuel = fuel_consumption * distance_travelled  # liter
 
-    # TODO: this needs to account for service_cost!
-    # TODO: this needs to account for insurance_cost!
     # TODO: this needs to account for depreciation!
     trip_cost = used_fuel * fuel_prices[car.fuel_type]
 
-    # current speed
-    if len(positions) > 1:  # we need to have at least 2 pos to calc speed
+    # we need to have at least 2 pos to calc speed, service_cost and insurance_cost
+    if len(positions) > 1:
         curr_pos = positions[-1]  # last element in list
         prev_pos = positions[-2]  # second to last element in list
 
+        # calculate current speed
         delta_distance = geodesic(
             (prev_pos.lat, prev_pos.lon), (curr_pos.lat, curr_pos.lon)
         ).km  # calculate distance between these to in km
@@ -69,9 +69,22 @@ def car_statistics(car: Car, positions: list, fuel_prices: dict):
             curr_pos.time_created - prev_pos.time_created
         ).total_seconds() / 3600  # calculate time difference in hours between these
         speed = delta_distance / delta_time  # km/h
+
+        # calculate the length in time of the trip
+        trip_time = (curr_pos.time_created - positions[0].time_created).total_seconds()
+
+        # calculate insurance_cost and service_cost based on trip_time
+        # 365 / 24 / 60 / 60 converts the yearly costs to kr/second
+        insurance_cost = (car.insurance_cost / 365 / 24 / 60 / 60) * trip_time
+        service_cost = (car.service_cost / 365 / 24 / 60 / 60) * trip_time
     else:
-        # if there are 0 or 1 positions in the list, no speed yet
+        # if there are 0 or 1 positions in the list, no speed, no service_cost and no insurance_cost yet
         speed = 0
+        insurance_cost = 0
+        service_cost = 0
+
+    # update trip_cost
+    trip_cost = trip_cost + insurance_cost + service_cost
 
     # co2_emissions
     co2_emissions = (distance_travelled / 1000) * car.co2_emissions
