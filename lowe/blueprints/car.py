@@ -26,6 +26,7 @@ def car():
                 "fuel_consumption": float,
                 "co2_emissions": float,
                 "insurance_cost": int,  # yearly
+                "tax": int,  # yearly
                 "service_cost": int,  # yearly average
                 "annual_mileage": float,  # yearly average
             }
@@ -42,6 +43,7 @@ def car():
             leasing=data["leasing"],
             leasing_cost=data["leasing_cost"] if data["leasing"] else 0,
             insurance_cost=data["insurance_cost"],
+            tax=data["tax"],
             service_cost=data["service_cost"],
             annual_mileage=data["annual_mileage"],
             user_id=user["id"],

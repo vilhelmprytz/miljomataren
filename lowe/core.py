@@ -73,18 +73,20 @@ def car_statistics(car: Car, positions: list, fuel_prices: dict):
         # calculate the length in time of the trip
         trip_time = (curr_pos.time_created - positions[0].time_created).total_seconds()
 
-        # calculate insurance_cost and service_cost based on trip_time
+        # calculate insurance_cost and service_cost and tax_cost based on trip_time
         # 365 / 24 / 60 / 60 converts the yearly costs to kr/second
         insurance_cost = (car.insurance_cost / 365 / 24 / 60 / 60) * trip_time
         service_cost = (car.service_cost / 365 / 24 / 60 / 60) * trip_time
+        tax_cost = (car.tax / 365 / 24 / 60 / 60) * trip_time
     else:
         # if there are 0 or 1 positions in the list, no speed, no service_cost and no insurance_cost yet
         speed = 0
         insurance_cost = 0
         service_cost = 0
+        tax_cost = 0
 
     # update trip_cost
-    trip_cost = trip_cost + insurance_cost + service_cost
+    trip_cost = trip_cost + insurance_cost + service_cost + tax_cost
 
     # co2_emissions
     co2_emissions = (distance_travelled / 1000) * car.co2_emissions

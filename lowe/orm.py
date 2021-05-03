@@ -33,6 +33,7 @@ class Car(db.Model):
     insurance_cost: int = db.Column(db.Integer, nullable=False)  # yearly
     service_cost: int = db.Column(db.Integer, nullable=False)  # yearly
     annual_mileage: float = db.Column(db.Float, nullable=False)  # yearly, km
+    tax: int = db.Column(db.Integer, nullable=False)  # yearly, kr
 
     trips = db.relationship("Trip", backref="car", lazy=True)
     user_id: int = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
