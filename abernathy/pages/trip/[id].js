@@ -1,11 +1,13 @@
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import styles from "../../styles/Home.module.css";
 import useSWR from "swr";
-import Router from "next/router";
-import fetcher from "../src/fetcher";
+import { useRouter } from "next/router";
+import fetcher from "../../src/fetcher";
 
-export default function Home({ backend_url }) {
-  const { data, error } = useSWR(`${backend_url}/api/user`, fetcher);
+export default function Trip({ backend_url }) {
+  const router = useRouter();
+  const { id } = router.query;
+  const { data, error } = useSWR(`${backend_url}/api/trip/${id}`, fetcher);
 
   if (!data) return <div>loading...</div>;
 
@@ -24,7 +26,7 @@ export default function Home({ backend_url }) {
 
         <main className={styles.main}>
           <h1 className={styles.title}>Miljömätaren</h1>
-          <p>Logged in as {data.response.name}</p>
+          <p>Logged in as {data.response}</p>
         </main>
 
         <footer className={styles.footer}>
