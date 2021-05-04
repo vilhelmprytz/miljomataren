@@ -41,6 +41,9 @@ services:
 
   abernathy:
     image: registry.gitlab.com/vilhelm/miljomataren:abernathy
+    environment:
+      # Backend URL is the BASE_URL
+      BACKEND_URL: "${BASE_URL}"
 
   postgresql:
     image: postgres
