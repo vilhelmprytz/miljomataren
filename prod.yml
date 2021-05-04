@@ -23,6 +23,7 @@ services:
 
       # App url
       BASE_URL: "${BASE_URL}"
+      FRONTEND_URL: "${FRONTEND_URL}"
 
       # Database and session
       DATABASE_HOST: "postgresql"

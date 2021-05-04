@@ -6,6 +6,7 @@ from json import dumps
 from flask_session import Session
 from redis import Redis
 from datetime import timedelta
+from flask_cors import CORS
 
 from orm import db
 from models import APIResponse
@@ -15,6 +16,8 @@ from config import (
     DATABASE_PASSWORD,
     DATABASE_HOST,
     REDIS_HOST,
+    INSECURE_CORS,
+    FRONTEND_URL,
 )
 
 from blueprints.auth import auth_blueprint
@@ -34,6 +37,12 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SESSION_TYPE"] = "redis"
 app.config["SESSION_REDIS"] = Redis(host=REDIS_HOST, db=0)
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=24)
+
+if INSECURE_CORS:
+    CORS(app, supports_credentials=True)
+else:
+    app.config["SESSION_COOKIE_SECURE"] = True
+    CORS(app, resources={r"/*": {"origins": FRONTEND_URL}})
 
 # init db
 db.init_app(app)
