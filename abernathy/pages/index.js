@@ -1,17 +1,18 @@
 import useSWR from "swr";
-import Router from "next/router";
+import { useRouter } from "next/router";
 
 export default function Home({ backend_url }) {
+  const router = useRouter();
   const { data, error } = useSWR(`${backend_url}/api/user`, fetch);
 
   if (!data) return <div>loading...</div>;
   if (error || data.status == 401) {
-    Router.push("/login");
+    router.push("/login");
     return <p>Redirecting..</p>;
   }
 
   if (data.status == 200) {
-    Router.push("/dashboard");
+    router.push("/dashboard");
     return <p>Redirecting..</p>;
   }
 }

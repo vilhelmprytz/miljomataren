@@ -1,46 +1,55 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import useSWR from "swr";
-import Router from "next/router";
-import fetcher from "../src/fetcher";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-export default function Home({ backend_url }) {
-  const { data, error } = useSWR(`${backend_url}/api/user`, fetcher);
+export default function Dashboard({ backend_url }) {
+  const router = useRouter();
+  const { data: user, error: userError } = useSWR(`${backend_url}/api/user`);
+  const { data: trips, error: tripsError } = useSWR(`${backend_url}/api/trip`);
 
-  if (!data) return <div>loading...</div>;
+  if (!user || !trips) return <div>loading...</div>;
 
-  if (error || data.code == 401) {
-    Router.push("/login");
+  if (userError || user.status == 401) {
+    router.push("/login");
     return <p>Redirecting..</p>;
   }
 
-  if (data.code == 200) {
-    return (
-      <div className={styles.container}>
-        <Head>
-          <title>Miljömätaren</title>
-          <meta name="description" content="Miljömätaren" />
-        </Head>
+  return (
+    <div className={styles.container}>
+      <Head>
+        <title>Miljömätaren</title>
+        <meta name="description" content="Miljömätaren" />
+      </Head>
 
-        <main className={styles.main}>
-          <h1 className={styles.title}>Miljömätaren</h1>
-          <p>Logged in as {data.response.name}</p>
-        </main>
+      <main className={styles.main}>
+        <h1 className={styles.title}>Miljömätaren</h1>
+        <p>Logged in as {user.response.name}</p>
 
-        <footer className={styles.footer}>
-          <a
-            href="https://github.com/vilhelmprytz/miljomataren"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            github.com/vilhelmprytz/miljomataren
-          </a>
-        </footer>
-      </div>
-    );
-  } else {
-    return <p>loading..</p>;
-  }
+        <div>
+          <p>Trips</p>
+          {trips.response.forEach((trip) => {
+            return (
+              <Link href={`/trip/${trip.id}`}>
+                <p>#{trip.id}</p>
+              </Link>
+            );
+          })}
+        </div>
+      </main>
+
+      <footer className={styles.footer}>
+        <a
+          href="https://github.com/vilhelmprytz/miljomataren"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          github.com/vilhelmprytz/miljomataren
+        </a>
+      </footer>
+    </div>
+  );
 }
 
 export async function getServerSideProps(context) {

@@ -2,21 +2,20 @@ import Head from "next/head";
 import styles from "../../styles/Home.module.css";
 import useSWR from "swr";
 import { useRouter } from "next/router";
-import fetcher from "../../src/fetcher";
 
 export default function Trip({ backend_url }) {
   const router = useRouter();
   const { id } = router.query;
-  const { data, error } = useSWR(`${backend_url}/api/trip/${id}`, fetcher);
+  const { data, error } = useSWR(`${backend_url}/api/trip/${id}`);
 
   if (!data) return <div>loading...</div>;
 
-  if (error || data.code == 401) {
-    Router.push("/login");
+  if (error || data.status == 401) {
+    router.push("/login");
     return <p>Redirecting..</p>;
   }
 
-  if (data.code == 200) {
+  if (data.status == 200) {
     return (
       <div className={styles.container}>
         <Head>
