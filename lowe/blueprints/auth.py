@@ -1,9 +1,9 @@
-from flask import Blueprint, request, abort, session
+from flask import Blueprint, request, abort, session, redirect
 from requests import get, post
 from json import dumps
 from oauthlib.oauth2 import WebApplicationClient
 
-from config import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BASE_URL
+from config import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BASE_URL, FRONTEND_URL
 from models import APIResponse
 from orm import User
 
@@ -88,6 +88,6 @@ def callback():
         session["authenticated"] = True
         session["user"] = user
 
-        return APIResponse(response=user).serialize()
+        return redirect(FRONTEND_URL)
     else:
         abort(400, "Email not verified by Google or not available")
