@@ -9,13 +9,16 @@ Positioning positioning;
 Display display;
 
 uint32_t timer = millis();
+uint32_t transition_timer = millis();
 
 bool trip_started = false;
+bool show_speed = false;
 int trip_id = 0;
 
 // statistics
 double trip_cost = 0.0;
 double co2_emissions = 0.0;
+double speed = 0.0;
 
 // initialize variables
 struct Positioning::position currentPos;
@@ -97,16 +100,28 @@ void loop() {
         trip_cost = position_response["response"]["statistics"]["trip_cost"];
         co2_emissions =
             position_response["response"]["statistics"]["co2_emissions"];
+        speed = position_response["response"]["statistics"]["speed"];
       } else {
         display.print("No GPS signal", "Locating..");
       }
     }
   };
 
+  // transition between showing CO2 and speed
+  if (millis() - transition_timer > 10000) {
+    show_speed = !show_speed;
+    transition_timer = millis(); // reset timer
+  }
+
   // update display information
   if (currentPos.success == true && positionRequest.success == true &&
       positionRequest.code == 200) {
-    display.print("Trip: " + String(trip_cost) + " kr",
-                  String(co2_emissions) + " g CO2");
+    if (show_speed == true) {
+      display.print("Trip: " + String(trip_cost) + " kr",
+                    String(co2_emissions) + " g CO2");
+    } else {
+      display.print("Trip: " + String(trip_cost) + " kr",
+                    String(speed) + " km/h");
+    }
   }
 }
