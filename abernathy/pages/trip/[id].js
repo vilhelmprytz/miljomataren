@@ -25,7 +25,14 @@ export default function Trip({ backendUrl }) {
       <main className={styles.main}>
         <h1 className={styles.title}>Miljömätaren</h1>
         <div>
-          <p>Trip #{trip.id}</p>
+          <p>Trip #{trip.response.id}</p>
+          <p>Active: {trip.response.active}</p>
+          <p>Cost: {trip.response.statistics.trip_cost} kr</p>
+          <p>CO2 emissions: {trip.response.statistics.co2_emissions} g</p>
+          <p>
+            Distance of trip: {trip.response.statistics.distance_travelled} m
+          </p>
+          <p>Used fuel: {trip.response.statistics.used_fuel} l</p>
         </div>
       </main>
 

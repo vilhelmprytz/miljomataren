@@ -27,13 +27,11 @@ export default function Index({ backendUrl }) {
 
         <div>
           <p>Trips</p>
-          {trips.response.forEach((trip) => {
-            return (
-              <Link href={`/trip/${trip.id}`}>
-                <p>#{trip.id}</p>
-              </Link>
-            );
-          })}
+          {trips.response.map((trip) => (
+            <Link href={`/trip/${trip.id}`}>
+              <p>#{trip.id}</p>
+            </Link>
+          ))}
         </div>
       </main>
     </div>
