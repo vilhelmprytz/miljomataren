@@ -18,16 +18,6 @@ export default function Login({ login_uri, success }) {
         )}
         {!success && <p>API connection failed - login unavailable.</p>}
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://github.com/vilhelmprytz/miljomataren"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          github.com/vilhelmprytz/miljomataren
-        </a>
-      </footer>
     </div>
   );
 }

@@ -38,16 +38,6 @@ export default function Dashboard({ backend_url }) {
           })}
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://github.com/vilhelmprytz/miljomataren"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          github.com/vilhelmprytz/miljomataren
-        </a>
-      </footer>
     </div>
   );
 }
