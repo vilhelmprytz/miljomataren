@@ -1,12 +1,16 @@
 import { SWRConfig } from "swr";
 import styles from "../styles/Home.module.css";
 import "../styles/globals.css";
+import fetch from "../lib/fetchJson";
 
 function App({ Component, pageProps }) {
   return (
     <SWRConfig
       value={{
-        fetcher: (...args) => fetch(...args).then((res) => res.json()),
+        fetcher: fetch,
+        onError: (err) => {
+          console.error(err);
+        },
       }}
     >
       <Component {...pageProps} />
