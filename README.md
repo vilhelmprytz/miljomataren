@@ -33,6 +33,20 @@ The third component of this project is the web application frontend. The fronten
 - LCD module compatible with Hitachi HD44780 driver. [Datasheet](https://www.electrokit.com/uploads/productfile/41014/JHD202C.pdf) for the one used in this project.
 - GPS module such as [GPS breakout board FGPMMOPA6H](https://servicepunkten.com/downloads/FGPMMOPA6H_BOB.pdf)
 
+## System Overview
+
+![System Overview](docs/system_overview.jpg)
+
+## Circuit Diagram/Schematic
+
+Circuit Diagram/Schematic for physical device.
+
+![Circuit Diagram created with Fritzing](docs/circuit_diagram.jpg)
+
+Note! The GPS module and LCD showed above may not be identical to the modules used in the project. You may have to adjust settings in the code and/or the wiring to fit your specific GPS module and LCD. The Arduino is labelled as "MKR 1000" but we used the MKR GSM 1400 for the actual device.
+
+![Circuit Schematic created with Fritzing](docs/circuit_schematic.jpg)
+
 ## Deploying application
 
 To deploy the application, [Docker](https://docs.docker.com/engine/install/ubuntu/) and [docker-compose](https://docs.docker.com/compose/install/) are both required.
