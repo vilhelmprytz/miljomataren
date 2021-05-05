@@ -26,7 +26,11 @@ export default function Trip({ backendUrl }) {
         <h1 className={styles.title}>Miljömätaren</h1>
         <div>
           <p>Trip #{trip.response.id}</p>
-          <p>Active: {trip.response.active}</p>
+          <br />
+          <p>Active: {trip.response.active ? "yes" : "no"}</p>
+          <p>Created: {trip.response.trip_started}</p>
+          <p>Updated: {trip.response.time_updated}</p>
+          {!trip.response.active && <p>Ended: {trip.response.trip_ended}</p>}
           <p>Cost: {trip.response.statistics.trip_cost} kr</p>
           <p>CO2 emissions: {trip.response.statistics.co2_emissions} g</p>
           <p>
@@ -35,16 +39,6 @@ export default function Trip({ backendUrl }) {
           <p>Used fuel: {trip.response.statistics.used_fuel} l</p>
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://github.com/vilhelmprytz/miljomataren"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          github.com/vilhelmprytz/miljomataren
-        </a>
-      </footer>
     </div>
   );
 }

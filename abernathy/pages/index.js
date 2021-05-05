@@ -29,7 +29,9 @@ export default function Index({ backendUrl }) {
           <p>Trips</p>
           {trips.response.map((trip) => (
             <Link href={`/trip/${trip.id}`}>
-              <p>#{trip.id}</p>
+              <p>
+                #{trip.id} - {trip.active ? "ACTIVE" : trip.trip_ended}
+              </p>
             </Link>
           ))}
         </div>
