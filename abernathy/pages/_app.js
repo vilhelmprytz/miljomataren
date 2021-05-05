@@ -1,4 +1,5 @@
 import { SWRConfig } from "swr";
+import styles from "../styles/Home.module.css";
 import "../styles/globals.css";
 
 function App({ Component, pageProps }) {
