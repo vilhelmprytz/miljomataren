@@ -36,7 +36,7 @@ export default function Trip({ backendUrl }) {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Miljömätaren</h1>
-        <div>
+        <div style={{ height: "100%", width: "100%" }}>
           <p>Trip #{trip.response.id}</p>
           <br />
           <p>Active: {trip.response.active ? "yes" : "no"}</p>
