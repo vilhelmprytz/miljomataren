@@ -36,7 +36,7 @@ export default function Trip({ backendUrl }) {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Miljömätaren</h1>
-        <div style={{ height: "100%", width: "100%" }}>
+        <div>
           <p>Trip #{trip.response.id}</p>
           <br />
           <p>Active: {trip.response.active ? "yes" : "no"}</p>
@@ -50,7 +50,7 @@ export default function Trip({ backendUrl }) {
           </p>
           <p>Used fuel: {trip.response.statistics.used_fuel} l</p>
         </div>
-        <div>
+        <div style={{ height: "100%", width: "100%" }}>
           <Map leafletPositions={leafletPositions} />
         </div>
       </main>
