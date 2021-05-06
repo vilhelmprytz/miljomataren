@@ -2,6 +2,8 @@ import Head from "next/head";
 import styles from "../../styles/Home.module.css";
 import useUser from "../../lib/useUser";
 import useTrip from "../../lib/useTrip";
+import usePositions from "../../lib/usePositions";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 
 export default function Trip({ backendUrl }) {
@@ -10,10 +12,20 @@ export default function Trip({ backendUrl }) {
 
   const { user } = useUser({ backendUrl: backendUrl, redirectTo: "/login" });
   const { trip, loadingTrip } = useTrip(backendUrl, user, id);
+  const { positions, loadingPositions } = usePositions(backendUrl, user, id);
 
-  if (!user?.code == 200 || loadingTrip) {
+  if (!user?.code == 200 || loadingTrip || loadingPositions) {
     return <p>loading...</p>;
   }
+
+  const leafletPositions = positions.response.map((position) => {
+    return [position.lat, position.lon];
+  });
+
+  const Map = dynamic(
+    () => import("../../components/Map"),
+    { ssr: false, leafletPositions } // This line is important. It's what prevents server-side render
+  );
 
   return (
     <div className={styles.container}>
@@ -37,6 +49,9 @@ export default function Trip({ backendUrl }) {
             Distance of trip: {trip.response.statistics.distance_travelled} m
           </p>
           <p>Used fuel: {trip.response.statistics.used_fuel} l</p>
+        </div>
+        <div>
+          <Map />
         </div>
       </main>
     </div>
