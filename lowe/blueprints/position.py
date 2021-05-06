@@ -14,6 +14,7 @@ position_blueprint = Blueprint("position", __name__)
 @authenticated
 def position():
     user = session.get("user")
+    trip_id = request.args.get("trip_id")
 
     if request.method == "POST":
         data = expect_json({"trip_id": int, "lat": float, "lon": float})
@@ -54,7 +55,13 @@ def position():
             }
         ).serialize()
 
-    return APIResponse().serialize()
+    positions = (
+        Position.query.filter_by(trip_id=trip_id, user_id=user["id"]).all()
+        if trip_id != None
+        else []
+    )
+
+    return APIResponse(response=positions).serialize()
 
 
 @position_blueprint.route("/<int:id>", methods=["GET"])
