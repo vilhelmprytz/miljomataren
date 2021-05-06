@@ -22,13 +22,17 @@ export default function Car({ backendUrl }) {
         <h1 className={styles.title}>Miljömätaren</h1>
         <div>
           <p>Cars</p>
-          {cars.response.forEach((car) => {
-            return (
+          {cars.response.map((car) => (
+            <div>
               <p>
                 #{car.id} - {car.registration_number}
               </p>
-            );
-          })}
+              <p>
+                {car.co2_emissions} g/km - {car.fuel_consumption} l/100 km
+              </p>
+              <br />
+            </div>
+          ))}
         </div>
       </main>
     </div>

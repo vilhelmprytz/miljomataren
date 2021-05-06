@@ -6,6 +6,7 @@ const Map = (leafletPositions) => {
       center={[59.324416, 18.046431]}
       zoom={13}
       scrollWheelZoom={true}
+      style={{ height: 400, width: "100%" }}
     >
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

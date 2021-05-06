@@ -1,14 +1,13 @@
-import useSWR from "swr";
-import { useRouter } from "next/router";
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
+import useTokens from "../lib/useTokens";
 
-export default function Token({ backend_url }) {
-  const router = useRouter();
-  const { data, error } = useSWR(`${backend_url}/api/token`, fetch);
+export default function Token({ backendUrl }) {
+  const { user } = useUser({ backendUrl: backendUrl, redirectTo: "/login" });
+  const { tokens, loadingTokens } = useTokens(backendUrl, user);
 
-  if (!data) return <div>loading...</div>;
-  if (error || data.status == 401) {
-    router.push("/login");
-    return <p>Redirecting..</p>;
+  if (!user?.code == 200 || loadingTokens) {
+    return <p>loading...</p>;
   }
 
   return (
@@ -22,13 +21,11 @@ export default function Token({ backend_url }) {
         <h1 className={styles.title}>Miljömätaren</h1>
         <div>
           <p>Tokens</p>
-          {data.response.forEach((token) => {
-            return (
-              <p>
-                #{token.id} - {token.token}
-              </p>
-            );
-          })}
+          {tokens.response.map((token) => (
+            <p>
+              #{token.id} - {token.token}
+            </p>
+          ))}
         </div>
       </main>
     </div>
@@ -37,6 +34,6 @@ export default function Token({ backend_url }) {
 
 export async function getServerSideProps(context) {
   return {
-    props: { backend_url: process.env.BACKEND_URL }, // will be passed to the page component as props
+    props: { backendUrl: process.env.BACKEND_URL }, // will be passed to the page component as props
   };
 }
