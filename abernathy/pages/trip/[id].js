@@ -24,8 +24,8 @@ export default function Trip({ backendUrl }) {
 
   const Map = dynamic(
     () => import("../../components/Map"),
-    { ssr: false, leafletPositions } // This line is important. It's what prevents server-side render
-  );
+    { ssr: false } // This line is important. It's what prevents server-side render
+  )(leafletPositions);
 
   return (
     <div className={styles.container}>
