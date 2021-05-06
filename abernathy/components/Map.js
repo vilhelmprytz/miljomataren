@@ -2,9 +2,14 @@ import { MapContainer, TileLayer, Polyline } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 const Map = ({ leafletPositions }) => {
+  const center =
+    leafletPositions.length == 0
+      ? [59.324416, 18.046431]
+      : [leafletPositions[0].lat, leafletPositions[0].lon];
+
   return (
     <MapContainer
-      center={[59.324416, 18.046431]}
+      center={center}
       zoom={13}
       scrollWheelZoom={true}
       style={{ height: 400, width: "100%" }}
