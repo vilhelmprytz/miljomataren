@@ -3,6 +3,7 @@ import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import useUser from "../lib/useUser";
 import useTrips from "../lib/useTrips";
+import Navbar from "../components/Navbar";
 
 export default function Index({ backendUrl }) {
   const { user } = useUser({ backendUrl: backendUrl, redirectTo: "/login" });
@@ -24,6 +25,8 @@ export default function Index({ backendUrl }) {
       <main className={styles.main}>
         <h1 className={styles.title}>Miljömätaren</h1>
         <p>Logged in as {user.response.name}</p>
+
+        <Navbar />
 
         <div>
           <p>Trips</p>

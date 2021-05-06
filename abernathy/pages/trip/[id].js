@@ -3,6 +3,7 @@ import styles from "../../styles/Home.module.css";
 import useUser from "../../lib/useUser";
 import useTrip from "../../lib/useTrip";
 import usePositions from "../../lib/usePositions";
+import Navbar from "../../components/Navbar";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 
@@ -30,12 +31,15 @@ export default function Trip({ backendUrl }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Miljömätaren</title>
+        <title>Miljömätaren- Trip #{id}</title>
         <meta name="description" content="Miljömätaren" />
       </Head>
 
       <main className={styles.main}>
         <h1 className={styles.title}>Miljömätaren</h1>
+
+        <Navbar />
+
         <div>
           <p>Trip #{trip.response.id}</p>
           <br />

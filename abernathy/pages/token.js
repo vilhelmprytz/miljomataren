@@ -2,6 +2,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import useUser from "../lib/useUser";
 import useTokens from "../lib/useTokens";
+import Navbar from "../components/Navbar";
 
 export default function Token({ backendUrl }) {
   const { user } = useUser({ backendUrl: backendUrl, redirectTo: "/login" });
@@ -14,12 +15,15 @@ export default function Token({ backendUrl }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Miljömätaren</title>
+        <title>Miljömätaren - My Tokens</title>
         <meta name="description" content="Miljömätaren" />
       </Head>
 
       <main className={styles.main}>
         <h1 className={styles.title}>Miljömätaren</h1>
+
+        <Navbar />
+
         <div>
           <p>Tokens</p>
           {tokens.response.map((token) => (

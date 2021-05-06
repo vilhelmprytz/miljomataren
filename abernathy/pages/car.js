@@ -2,6 +2,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import useUser from "../lib/useUser";
 import useCars from "../lib/useCars";
+import Navbar from "../components/Navbar";
 
 export default function Car({ backendUrl }) {
   const { user } = useUser({ backendUrl: backendUrl, redirectTo: "/login" });
@@ -14,12 +15,15 @@ export default function Car({ backendUrl }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Miljömätaren</title>
+        <title>Miljömätaren - My Cars</title>
         <meta name="description" content="Miljömätaren" />
       </Head>
 
       <main className={styles.main}>
         <h1 className={styles.title}>Miljömätaren</h1>
+
+        <Navbar />
+
         <div>
           <p>Cars</p>
           {cars.response.map((car) => (
