@@ -57,7 +57,7 @@ def position():
 
     positions = (
         Position.query.filter_by(trip_id=trip_id, user_id=user["id"]).all()
-        if trip_id != None
+        if trip_id is not None
         else []
     )
 
