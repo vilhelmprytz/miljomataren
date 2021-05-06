@@ -1,5 +1,6 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import useUser from "../lib/useUser";
 import useTokens from "../lib/useTokens";
 
 export default function Token({ backendUrl }) {
