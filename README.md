@@ -58,11 +58,19 @@ cp .env.example .env
 vim .env
 ```
 
+You also need to create a file named `fuel_prices.json` with the current fuel prices (in unit kr/l).
+
+````json
+{
+    "petrol": 16.14,
+    "diesel": 16.27
+}
+
 Once it's configured, use docker-compose to start the application.
 
 ```bash
 docker-compose -f prod.yml up -d
-```
+````
 
 ## Project limitations
 

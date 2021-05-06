@@ -35,6 +35,10 @@ services:
 
       # Timezone
       TZ: "${TIMEZONE}"
+    volumes:
+      - type: bind
+        source: ./fuel_prices.json
+        target: /var/www/app/fuel_prices.json
     depends_on:
       - postgresql
       - redis
