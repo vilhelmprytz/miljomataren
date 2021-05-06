@@ -5,7 +5,7 @@ const Map = ({ leafletPositions }) => {
   const center =
     leafletPositions.length == 0
       ? [59.324416, 18.046431]
-      : [leafletPositions[0].lat, leafletPositions[0].lon];
+      : [leafletPositions[0][0], leafletPositions[0][1]];
 
   return (
     <MapContainer
