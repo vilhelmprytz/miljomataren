@@ -1,7 +1,7 @@
 import { MapContainer, TileLayer, Polyline } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-const Map = (leafletPositions) => {
+const Map = ({ leafletPositions }) => {
   return (
     <MapContainer
       center={[59.324416, 18.046431]}

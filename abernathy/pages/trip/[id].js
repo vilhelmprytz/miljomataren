@@ -25,7 +25,7 @@ export default function Trip({ backendUrl }) {
   const Map = dynamic(
     () => import("../../components/Map"),
     { ssr: false } // This line is important. It's what prevents server-side render
-  )(leafletPositions);
+  );
 
   return (
     <div className={styles.container}>
@@ -51,7 +51,7 @@ export default function Trip({ backendUrl }) {
           <p>Used fuel: {trip.response.statistics.used_fuel} l</p>
         </div>
         <div>
-          <Map />
+          <Map leafletPositions={leafletPositions} />
         </div>
       </main>
     </div>
